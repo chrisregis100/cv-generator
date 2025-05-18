@@ -42,6 +42,7 @@ export default function Home() {
   const [languages, setLanguages] = useState<Language[]>(languagesPreset);
   const [skills, setSkills] = useState<Skill[]>(skillsPreset);
   const [hobby, setHobby] = useState<Hobby[]>(hobbiesPreset);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const defautImageUrl = "/profil.jpg";
@@ -118,7 +119,7 @@ export default function Home() {
 
   const handleDownloadPdf = async () => {
     const element = cvPreviewRef.current;
-
+    setIsLoading(true);
     if (element) {
       try {
         const canvas = await html2canvas(element, { scale: 3, useCORS: true });
@@ -135,7 +136,7 @@ export default function Home() {
 
         pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
         pdf.save(`cv.pdf`);
-
+        setIsLoading(false);
         const modal = document.getElementById(
           "my_modal_3"
         ) as HTMLDialogElement;
@@ -164,7 +165,7 @@ export default function Home() {
             <div className="mb-4 flex justify-between items-center">
               <h1 className="text-2xl font-bold italic">
                 CV
-                <span className="text-primary">Builder</span>
+                <span className="text-primary">Generator</span>
               </h1>
 
               <button
@@ -336,7 +337,7 @@ export default function Home() {
             <div className="mt-5">
               <div className="flex justify-end mb-5">
                 <button onClick={handleDownloadPdf} className="btn btn-primary">
-                  Télécharger
+                  {isLoading ? "Telechargement en cours..." : "Télécharger"}
                   <Save className="w-4" />
                 </button>
               </div>
