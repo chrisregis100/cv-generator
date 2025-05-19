@@ -159,9 +159,9 @@ export default function Home() {
 
   return (
     <div>
-      <div className="hidden lg:block">
+      <div className=" lg:block">
         <section className="flex items-center h-screen">
-          <div className="w-1/3 h-full p-10 bg-base-200 scrollable no-scrollbar ">
+          <div className="lg:w-1/3 h-full p-10 bg-base-200 scrollable no-scrollbar ">
             <div className="mb-4 flex justify-between items-center">
               <h1 className="text-2xl font-bold italic">
                 CV
@@ -280,7 +280,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="w-2/3 h-full bg-base-100 bg-[url('/file.svg')] bg-cover  bg-center scrollable-preview relative">
+          <div className="hidden lg:block w-2/3 h-full bg-base-100 bg-[url('/file.svg')] bg-cover  bg-center scrollable-preview relative">
             <div className="flex items-center justify-center fixed z-[9999] top-5 right-5">
               <input
                 type="range"
@@ -363,7 +363,7 @@ export default function Home() {
         </dialog>
       </div>
 
-      <div className="lg:hidden">
+      {/* <div className="lg:hidden">
         <div className="hero bg-base-200 min-h-screen">
           <div className="hero-content text-center">
             <div className="max-w-md">
@@ -384,7 +384,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

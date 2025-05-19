@@ -85,7 +85,7 @@ const CvPreview: React.FC<Props> = ({
 }) => {
   return (
     <div
-      className={`flex p-16 w-[950px] h-[1200px] shadow-lg ${
+      className={`flex p-16 mx-auto  transf lg:w-[950px] lg:h-[1200px] shadow-lg ${
         download ? "mb-10" : ""
       }`}
       ref={ref}
