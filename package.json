@@ -6,28 +6,38 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "db:generate": "drizzle-kit generate",
+    "db:push": "drizzle-kit push",
+    "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
+    "@neondatabase/serverless": "^1.0.2",
+    "better-auth": "^1.5.6",
     "canvas-confetti": "^1.9.3",
-    "daisyui": "^5.0.35",
+    "daisyui": "^5.5.19",
+    "drizzle-orm": "^0.45.1",
     "html2canvas-pro": "^1.5.11",
     "jspdf": "^3.0.1",
     "lucide-react": "^0.511.0",
-    "next": "15.3.2",
+    "next": "^15.3.9",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "ua-parser-js": "^2.0.9",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
-    "@tailwindcss/postcss": "^4.1.7",
+    "@tailwindcss/postcss": "^4.2.2",
     "@types/canvas-confetti": "^1.9.0",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/ua-parser-js": "^0.7.39",
+    "drizzle-kit": "^0.31.10",
     "eslint": "^9",
     "eslint-config-next": "15.3.2",
-    "tailwindcss": "^4.1.7",
+    "tailwindcss": "^4.2.2",
     "typescript": "^5"
   }
 }
