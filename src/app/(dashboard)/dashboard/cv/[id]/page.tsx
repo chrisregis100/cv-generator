@@ -73,7 +73,7 @@ export default function CvEditorPage() {
   const [isInitialized, setIsInitialized] = useState(false);
 
   const cvPreviewRef = useRef<HTMLDivElement>(null);
-  const saveTimeoutRef = useRef<ReturnType<typeof setTimeout>>();
+  const saveTimeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   // Load CV data from DB on mount
   useEffect(() => {

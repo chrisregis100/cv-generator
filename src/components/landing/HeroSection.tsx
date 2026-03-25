@@ -2,30 +2,7 @@ import Link from "next/link";
 
 export default function HeroSection() {
   return (
-    <>
-      {/* Sticky Navbar */}
-      <div className="navbar sticky top-0 z-50 bg-base-100/80 backdrop-blur-md border-b border-base-300">
-        <div className="navbar-start">
-          <Link
-            href="/"
-            className="text-2xl font-bold text-primary tracking-tight"
-            aria-label="CVGen — Accueil"
-          >
-            CVGen
-          </Link>
-        </div>
-        <div className="navbar-end gap-2">
-          <Link href="/login" className="btn btn-ghost btn-sm hidden sm:inline-flex">
-            Connexion
-          </Link>
-          <Link href="/register" className="btn btn-primary btn-sm">
-            Commencer gratuitement
-          </Link>
-        </div>
-      </div>
-
-      {/* Hero Section */}
-      <section className="hero min-h-[88vh] bg-gradient-to-br from-base-100 via-base-200 to-base-300 relative overflow-hidden">
+      <section className="hero min-h-[88vh] bg-linear-to-br from-base-100 via-base-200 to-base-300 relative overflow-hidden">
         {/* Decorative blobs */}
         <div
           className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl pointer-events-none"
@@ -76,6 +53,5 @@ export default function HeroSection() {
           </p>
         </div>
       </section>
-    </>
   );
 }

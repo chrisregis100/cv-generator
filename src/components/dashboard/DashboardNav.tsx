@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { signOut } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
-import { LogOut } from "lucide-react";
+import { LogOut, Settings } from "lucide-react";
 
 interface User {
   id: string;
@@ -50,6 +50,14 @@ const DashboardNav = ({ user }: DashboardNavProps) => {
         <span className="text-sm text-base-content/60 hidden sm:block">
           {user.email}
         </span>
+        <Link
+          href="/dashboard/settings"
+          className="btn btn-ghost btn-sm gap-2"
+          aria-label="Paramètres"
+        >
+          <Settings className="w-4 h-4" />
+          <span className="hidden sm:inline">Paramètres</span>
+        </Link>
         <SignOutButton />
       </div>
     </nav>
