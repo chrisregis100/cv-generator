@@ -5,6 +5,7 @@ interface Feature {
   icon: LucideIcon;
   title: string;
   description: string;
+  accent?: boolean;
 }
 
 const features: Feature[] = [
@@ -12,71 +13,145 @@ const features: Feature[] = [
     icon: Eye,
     title: "Éditeur en temps réel",
     description:
-      "Aperçu instantané de votre CV pendant la saisie. Voyez vos modifications s'appliquer en direct, sans rechargement.",
+      "Aperçu instantané de votre CV pendant la saisie. Vos modifications s'appliquent en direct.",
+    accent: true,
   },
   {
     icon: Download,
     title: "Export PDF gratuit",
     description:
-      "Téléchargez votre CV en haute qualité, prêt à être envoyé à tout recruteur. Format PDF universellement accepté.",
+      "Téléchargez votre CV en haute qualité, prêt à être envoyé. Format PDF universel.",
   },
   {
     icon: Globe,
     title: "Publication en ligne",
     description:
-      "Partagez votre CV avec une URL publique personnalisée, optimisée pour les moteurs de recherche.",
+      "Partagez votre CV avec une URL publique personnalisée, optimisée SEO.",
   },
   {
     icon: Palette,
     title: "32 thèmes inclus",
     description:
-      "Personnalisez les couleurs et le style de votre CV parmi 32 thèmes professionnels. Trouvez celui qui vous ressemble.",
+      "Personnalisez couleurs et style parmi 32 thèmes professionnels.",
+    accent: true,
   },
   {
     icon: BarChart,
     title: "Analytics de vues",
     description:
-      "Suivez qui consulte votre CV : nombre de vues, pays d'origine, appareils utilisés. Sachez quand votre CV est vu.",
+      "Suivez qui consulte votre CV : vues, pays d'origine, appareils utilisés.",
   },
   {
     icon: Infinity,
     title: "Accès à vie",
     description:
-      "Un seul paiement, pas d'abonnement. Payez une fois et profitez de toutes les fonctionnalités pour toujours.",
+      "Un seul paiement, pas d'abonnement. Toutes les fonctionnalités pour toujours.",
+    accent: true,
   },
 ];
 
 export default function FeaturesSection() {
   return (
-    <section className="py-24 bg-base-200" aria-labelledby="features-heading">
-      <div className="container mx-auto px-4 max-w-6xl">
-        <div className="text-center mb-16">
-          <h2 id="features-heading" className="text-3xl sm:text-4xl font-bold mb-4">
-            Tout ce dont vous avez besoin
-          </h2>
-          <p className="text-base sm:text-lg text-base-content/60 max-w-2xl mx-auto">
+    <section
+      className="py-24 sm:py-32"
+      style={{ backgroundColor: "var(--bg-elevated)" }}
+      aria-labelledby="features-heading"
+    >
+      <div className="max-w-7xl mx-auto px-6 sm:px-10">
+        {/* Section Header — left aligned, not centered */}
+        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-16">
+          <div>
+            <span
+              className="text-xs font-bold uppercase tracking-[0.2em] mb-3 block"
+              style={{ color: "var(--accent-lime)" }}
+            >
+              Fonctionnalités
+            </span>
+            <h2
+              id="features-heading"
+              className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight"
+              style={{ color: "var(--text-primary)" }}
+            >
+              Tout ce dont vous
+              <br />
+              avez besoin<span style={{ color: "var(--accent-coral)" }}>.</span>
+            </h2>
+          </div>
+          <p
+            className="max-w-sm text-sm leading-relaxed"
+            style={{ color: "var(--text-muted)" }}
+          >
             Des outils puissants pour créer un CV qui vous démarque des autres
             candidats.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {features.map((feature) => (
-            <div
-              key={feature.title}
-              className="card bg-base-100 shadow-md hover:shadow-xl transition-shadow duration-300 border border-base-300/50"
-            >
-              <div className="card-body p-6">
-                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4 flex-shrink-0">
-                  <feature.icon className="w-6 h-6 text-primary" aria-hidden="true" />
+        {/* Bento Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {features.map((feature, index) => {
+            const isAccent = feature.accent;
+            return (
+              <div
+                key={feature.title}
+                className="hover-lift relative p-6 sm:p-8 overflow-hidden"
+                style={{
+                  backgroundColor: isAccent
+                    ? "var(--accent-lime)"
+                    : "var(--bg-card)",
+                  border: isAccent
+                    ? "2px solid var(--accent-lime)"
+                    : "2px solid var(--border-thick)",
+                  borderRadius: "var(--radius-brutal)",
+                  color: isAccent ? "var(--bg-deep)" : "var(--text-primary)",
+                }}
+              >
+                {/* Number watermark */}
+                <span
+                  className="feature-number"
+                  style={{
+                    color: isAccent ? "var(--bg-deep)" : "var(--text-primary)",
+                  }}
+                >
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+
+                {/* Icon */}
+                <div
+                  className="w-11 h-11 flex items-center justify-center mb-5"
+                  style={{
+                    border: isAccent
+                      ? "2px solid var(--bg-deep)"
+                      : "2px solid var(--accent-lime)",
+                    borderRadius: "var(--radius-brutal)",
+                    backgroundColor: isAccent
+                      ? "rgba(10,10,10,0.1)"
+                      : "transparent",
+                  }}
+                >
+                  <feature.icon
+                    className="w-5 h-5"
+                    style={{
+                      color: isAccent ? "var(--bg-deep)" : "var(--accent-lime)",
+                    }}
+                    aria-hidden="true"
+                  />
                 </div>
-                <h3 className="card-title text-base font-semibold">{feature.title}</h3>
-                <p className="text-base-content/60 text-sm leading-relaxed">
+
+                {/* Content */}
+                <h3 className="text-base font-bold mb-2">{feature.title}</h3>
+                <p
+                  className="text-sm leading-relaxed"
+                  style={{
+                    color: isAccent
+                      ? "rgba(10,10,10,0.7)"
+                      : "var(--text-muted)",
+                  }}
+                >
                   {feature.description}
                 </p>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

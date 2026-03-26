@@ -27,54 +27,91 @@ const themes: Theme[] = [
 
 const PREVIEW_WIDTH = 950;
 const PREVIEW_HEIGHT = 1200;
-const SCALE = 0.35;
+const SCALE = 0.38;
 const CONTAINER_WIDTH = Math.round(PREVIEW_WIDTH * SCALE);
 const CONTAINER_HEIGHT = Math.round(PREVIEW_HEIGHT * SCALE);
 
 export default function CvShowcase() {
   const [selectedTheme, setSelectedTheme] = useState<string>("night");
 
-  const handleThemeChange = (themeId: string) => {
-    setSelectedTheme(themeId);
-  };
-
   return (
-    <section className="py-24 bg-base-100" aria-labelledby="showcase-heading">
-      <div className="container mx-auto px-4 max-w-6xl">
-        <div className="text-center mb-12">
-          <h2 id="showcase-heading" className="text-3xl sm:text-4xl font-bold mb-4">
-            Choisissez votre style
-          </h2>
-          <p className="text-base sm:text-lg text-base-content/60 max-w-2xl mx-auto">
-            32 thèmes disponibles. Changez le thème de votre CV en un clic et
+    <section
+      className="py-24 sm:py-32"
+      style={{ backgroundColor: "var(--bg-deep)" }}
+      aria-labelledby="showcase-heading"
+    >
+      <div className="max-w-7xl mx-auto px-6 sm:px-10">
+        {/* Section header */}
+        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-14">
+          <div>
+            <span
+              className="text-xs font-bold uppercase tracking-[0.2em] mb-3 block"
+              style={{ color: "var(--accent-coral)" }}
+            >
+              Personnalisation
+            </span>
+            <h2
+              id="showcase-heading"
+              className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight"
+              style={{ color: "var(--text-primary)" }}
+            >
+              Choisissez votre
+              <br />
+              style<span style={{ color: "var(--accent-lime)" }}>.</span>
+            </h2>
+          </div>
+          <p
+            className="max-w-sm text-sm leading-relaxed"
+            style={{ color: "var(--text-muted)" }}
+          >
+            32 thèmes disponibles. Changez le thème en un clic et
             prévisualisez le résultat instantanément.
           </p>
         </div>
 
-        {/* Theme selector buttons */}
-        <div className="flex flex-wrap justify-center gap-2 mb-10" role="group" aria-label="Sélection du thème">
-          {themes.map((theme) => (
-            <button
-              key={theme.id}
-              onClick={() => handleThemeChange(theme.id)}
-              onKeyDown={(e) => e.key === "Enter" && handleThemeChange(theme.id)}
-              className={`btn btn-sm ${
-                selectedTheme === theme.id ? "btn-primary" : "btn-ghost btn-outline"
-              }`}
-              aria-label={`Sélectionner le thème ${theme.label}`}
-              aria-pressed={selectedTheme === theme.id}
-              tabIndex={0}
-            >
-              {theme.label}
-            </button>
-          ))}
+        {/* Theme selector */}
+        <div
+          className="flex flex-wrap gap-2 mb-10"
+          role="group"
+          aria-label="Sélection du thème"
+        >
+          {themes.map((theme) => {
+            const isSelected = selectedTheme === theme.id;
+            return (
+              <button
+                key={theme.id}
+                onClick={() => setSelectedTheme(theme.id)}
+                className="px-5 py-2.5 text-xs font-bold uppercase tracking-wider transition-all duration-200"
+                style={{
+                  backgroundColor: isSelected
+                    ? "var(--accent-lime)"
+                    : "transparent",
+                  color: isSelected ? "var(--bg-deep)" : "var(--text-muted)",
+                  border: isSelected
+                    ? "2px solid var(--accent-lime)"
+                    : "2px solid var(--border-thick)",
+                  borderRadius: "var(--radius-brutal)",
+                }}
+                aria-label={`Sélectionner le thème ${theme.label}`}
+                aria-pressed={isSelected}
+              >
+                {theme.label}
+              </button>
+            );
+          })}
         </div>
 
-        {/* CV Preview scaled display */}
+        {/* CV Preview */}
         <div className="flex justify-center">
           <div
-            className="overflow-hidden rounded-xl shadow-2xl border border-base-300"
-            style={{ width: `${CONTAINER_WIDTH}px`, height: `${CONTAINER_HEIGHT}px` }}
+            className="overflow-hidden"
+            style={{
+              width: `${CONTAINER_WIDTH}px`,
+              height: `${CONTAINER_HEIGHT}px`,
+              border: "3px solid var(--accent-lime)",
+              borderRadius: "var(--radius-brutal)",
+              boxShadow: "8px 8px 0px var(--accent-lime)",
+            }}
             aria-label="Aperçu du CV"
           >
             <div

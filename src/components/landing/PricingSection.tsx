@@ -17,93 +17,197 @@ const premiumPlanFeatures = [
 
 export default function PricingSection() {
   return (
-    <section className="py-24 bg-base-200" aria-labelledby="pricing-heading">
-      <div className="container mx-auto px-4 max-w-5xl">
+    <section
+      className="py-24 sm:py-32"
+      style={{ backgroundColor: "var(--bg-elevated)" }}
+      aria-labelledby="pricing-heading"
+    >
+      <div className="max-w-6xl mx-auto px-6 sm:px-10">
+        {/* Section header */}
         <div className="text-center mb-16">
-          <h2 id="pricing-heading" className="text-3xl sm:text-4xl font-bold mb-4">
-            Tarifs simples et transparents
+          <span
+            className="text-xs font-bold uppercase tracking-[0.2em] mb-3 block"
+            style={{ color: "var(--accent-lime)" }}
+          >
+            Tarifs
+          </span>
+          <h2
+            id="pricing-heading"
+            className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4"
+            style={{ color: "var(--text-primary)" }}
+          >
+            Tarifs simples<span style={{ color: "var(--accent-coral)" }}>.</span>
           </h2>
-          <p className="text-base sm:text-lg text-base-content/60">
+          <p className="text-sm sm:text-base" style={{ color: "var(--text-muted)" }}>
             Commencez gratuitement. Passez Premium quand vous en avez besoin.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start max-w-4xl mx-auto">
           {/* Free Plan */}
-          <div className="card bg-base-100 shadow-lg border border-base-300">
-            <div className="card-body p-8">
-              <div>
-                <h3 className="text-2xl font-bold">Plan Gratuit</h3>
-                <div className="mt-3 flex items-end gap-2">
-                  <span className="text-5xl font-extrabold">0€</span>
-                  <span className="text-base-content/50 mb-1">pour toujours</span>
-                </div>
-              </div>
-
-              <ul className="space-y-3 my-8" aria-label="Fonctionnalités du plan gratuit">
-                {freePlanFeatures.map((feature) => (
-                  <li key={feature} className="flex items-center gap-3">
-                    <span className="w-5 h-5 flex-shrink-0 flex items-center justify-center rounded-full bg-success/10">
-                      <Check className="w-3.5 h-3.5 text-success" aria-hidden="true" />
-                    </span>
-                    <span className="text-base-content/80 text-sm">{feature}</span>
-                  </li>
-                ))}
-              </ul>
-
-              <Link
-                href="/register"
-                className="btn btn-outline btn-block"
-                aria-label="Créer un compte gratuit"
+          <div
+            className="hover-lift p-8 sm:p-10"
+            style={{
+              backgroundColor: "var(--bg-card)",
+              border: "2px solid var(--border-thick)",
+              borderRadius: "var(--radius-brutal)",
+            }}
+          >
+            <div className="mb-8">
+              <h3
+                className="text-lg font-bold uppercase tracking-wider"
+                style={{ color: "var(--text-primary)" }}
               >
-                Commencer gratuitement
-              </Link>
+                Plan Gratuit
+              </h3>
+              <div className="mt-4 flex items-end gap-2">
+                <span
+                  className="text-5xl sm:text-6xl font-bold"
+                  style={{ color: "var(--text-primary)" }}
+                >
+                  0€
+                </span>
+                <span
+                  className="text-sm mb-2 font-medium"
+                  style={{ color: "var(--text-muted)" }}
+                >
+                  pour toujours
+                </span>
+              </div>
             </div>
+
+            <ul className="space-y-4 mb-10" aria-label="Fonctionnalités du plan gratuit">
+              {freePlanFeatures.map((feature) => (
+                <li key={feature} className="flex items-center gap-3">
+                  <span
+                    className="w-5 h-5 flex-shrink-0 flex items-center justify-center"
+                    style={{
+                      border: "2px solid var(--accent-lime)",
+                      borderRadius: "var(--radius-brutal)",
+                    }}
+                  >
+                    <Check
+                      className="w-3 h-3"
+                      style={{ color: "var(--accent-lime)" }}
+                      aria-hidden="true"
+                    />
+                  </span>
+                  <span className="text-sm" style={{ color: "var(--text-muted)" }}>
+                    {feature}
+                  </span>
+                </li>
+              ))}
+            </ul>
+
+            <Link
+              href="/register"
+              className="btn-brutal-ghost w-full block text-center px-6 py-3.5 text-sm"
+              aria-label="Créer un compte gratuit"
+            >
+              Commencer gratuitement
+            </Link>
           </div>
 
           {/* Premium Plan */}
-          <div className="card bg-primary text-primary-content shadow-2xl border-2 border-primary relative mt-6 md:mt-0">
-            <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-10">
-              <span className="badge badge-secondary badge-lg font-semibold px-5 py-3 whitespace-nowrap">
+          <div className="relative">
+            {/* Sticker badge */}
+            <div className="absolute -top-5 -right-2 z-10">
+              <span
+                className="sticker inline-block px-4 py-2 text-xs font-bold uppercase tracking-wider"
+                style={{
+                  backgroundColor: "var(--accent-coral)",
+                  color: "#fff",
+                  borderRadius: "var(--radius-brutal)",
+                  transform: "rotate(3deg)",
+                }}
+              >
                 ⭐ Meilleure valeur
               </span>
             </div>
 
-            <div className="card-body p-8">
-              <div>
-                <h3 className="text-2xl font-bold">Plan Premium</h3>
-                <div className="mt-3">
-                  <span className="text-3xl sm:text-4xl font-extrabold">Paiement unique</span>
+            <div
+              className="hover-lift p-8 sm:p-10"
+              style={{
+                backgroundColor: "var(--accent-lime)",
+                border: "3px solid var(--accent-lime)",
+                borderRadius: "var(--radius-brutal)",
+                boxShadow: "6px 6px 0px var(--bg-deep)",
+              }}
+            >
+              <div className="mb-8">
+                <h3
+                  className="text-lg font-bold uppercase tracking-wider"
+                  style={{ color: "var(--bg-deep)" }}
+                >
+                  Plan Premium
+                </h3>
+                <div className="mt-4">
+                  <span
+                    className="text-3xl sm:text-4xl font-bold"
+                    style={{ color: "var(--bg-deep)" }}
+                  >
+                    Paiement unique
+                  </span>
                 </div>
-                <p className="text-primary-content/60 mt-1 text-sm">
+                <p
+                  className="mt-2 text-sm font-medium"
+                  style={{ color: "rgba(10,10,10,0.6)" }}
+                >
                   Accès à vie — sans abonnement
                 </p>
               </div>
 
-              <ul className="space-y-3 my-8" aria-label="Fonctionnalités du plan premium">
+              <ul className="space-y-4 mb-10" aria-label="Fonctionnalités du plan premium">
                 {premiumPlanFeatures.map((feature) => (
                   <li key={feature} className="flex items-center gap-3">
-                    <span className="w-5 h-5 flex-shrink-0 flex items-center justify-center rounded-full bg-primary-content/20">
-                      <Check className="w-3.5 h-3.5 text-primary-content" aria-hidden="true" />
+                    <span
+                      className="w-5 h-5 flex-shrink-0 flex items-center justify-center"
+                      style={{
+                        border: "2px solid var(--bg-deep)",
+                        borderRadius: "var(--radius-brutal)",
+                      }}
+                    >
+                      <Check
+                        className="w-3 h-3"
+                        style={{ color: "var(--bg-deep)" }}
+                        aria-hidden="true"
+                      />
                     </span>
-                    <span className="text-primary-content/90 text-sm">{feature}</span>
+                    <span
+                      className="text-sm font-medium"
+                      style={{ color: "rgba(10,10,10,0.8)" }}
+                    >
+                      {feature}
+                    </span>
                   </li>
                 ))}
               </ul>
 
               <Link
                 href="/dashboard"
-                className="btn bg-base-100 text-primary hover:bg-base-200 btn-block font-semibold border-0"
+                className="w-full block text-center px-6 py-3.5 text-sm font-bold uppercase tracking-wider transition-all duration-300"
+                style={{
+                  backgroundColor: "var(--bg-deep)",
+                  color: "var(--accent-lime)",
+                  border: "2px solid var(--bg-deep)",
+                  borderRadius: "var(--radius-brutal)",
+                }}
                 aria-label="Passer au plan Premium"
               >
-                Passer Premium
+                Passer Premium →
               </Link>
 
-              <div className="mt-5 text-center space-y-1">
-                <p className="text-primary-content/50 text-xs uppercase tracking-wider">
+              <div className="mt-6 text-center">
+                <p
+                  className="text-xs uppercase tracking-wider font-bold"
+                  style={{ color: "rgba(10,10,10,0.4)" }}
+                >
                   Paiements acceptés
                 </p>
-                <p className="text-primary-content/80 text-sm font-medium">
+                <p
+                  className="text-sm font-semibold mt-1"
+                  style={{ color: "rgba(10,10,10,0.7)" }}
+                >
                   MTN Money · Moov Money · Wave
                 </p>
               </div>

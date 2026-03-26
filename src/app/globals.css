@@ -3,6 +3,177 @@
   themes: all;
 };
 
+/* ─── Neo-Brutalist Design Tokens ─── */
+:root {
+  --accent-lime: #c8ff00;
+  --accent-coral: #ff6b4a;
+  --bg-deep: #0a0a0a;
+  --bg-elevated: #141414;
+  --bg-card: #1a1a1a;
+  --border-thick: #2a2a2a;
+  --text-primary: #f5f5f0;
+  --text-muted: #8a8a8a;
+  --radius-brutal: 4px;
+}
+
+/* Override DaisyUI theme background */
+html, body {
+  background-color: var(--bg-deep) !important;
+}
+
+/* ─── Keyframes ─── */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes subtle-rotate {
+  0%, 100% { transform: rotate(-2deg); }
+  50% { transform: rotate(1deg); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* ─── Text Stroke / Outline Effect ─── */
+.text-stroke {
+  -webkit-text-stroke: 2px var(--text-primary);
+  color: transparent;
+}
+
+.text-stroke-accent {
+  -webkit-text-stroke: 2px var(--accent-lime);
+  color: transparent;
+}
+
+/* ─── Sticker Style ─── */
+.sticker {
+  display: inline-block;
+  transform: rotate(-3deg);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.sticker:hover {
+  transform: rotate(0deg) scale(1.05);
+}
+
+/* ─── Hover Lift ─── */
+.hover-lift {
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 0.35s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-6px);
+  box-shadow: 8px 8px 0px var(--accent-lime);
+}
+
+/* ─── Brutal Border ─── */
+.border-brutal {
+  border: 2px solid var(--border-thick);
+}
+
+.border-brutal-accent {
+  border: 2px solid var(--accent-lime);
+}
+
+.border-brutal-white {
+  border: 2px solid var(--text-primary);
+}
+
+/* ─── Number Watermark ─── */
+.feature-number {
+  position: absolute;
+  top: -10px;
+  right: 12px;
+  font-size: 5rem;
+  font-weight: 900;
+  line-height: 1;
+  opacity: 0.06;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ─── Slide-up animation ─── */
+.animate-slide-up {
+  animation: slide-up 0.6s ease-out both;
+}
+
+.animate-slide-up-delay-1 {
+  animation: slide-up 0.6s ease-out 0.1s both;
+}
+
+.animate-slide-up-delay-2 {
+  animation: slide-up 0.6s ease-out 0.2s both;
+}
+
+.animate-slide-up-delay-3 {
+  animation: slide-up 0.6s ease-out 0.3s both;
+}
+
+/* ─── Marquee ─── */
+.animate-marquee {
+  animation: marquee 20s linear infinite;
+}
+
+/* ─── CTA Button Neo-Brutal ─── */
+.btn-brutal {
+  background-color: var(--accent-lime);
+  color: #0a0a0a;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border: 2px solid var(--accent-lime);
+  border-radius: var(--radius-brutal);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 4px 4px 0px #0a0a0a;
+  position: relative;
+}
+
+.btn-brutal:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px var(--accent-coral);
+  background-color: var(--accent-lime);
+  color: #0a0a0a;
+}
+
+.btn-brutal:active {
+  transform: translate(2px, 2px);
+  box-shadow: 0px 0px 0px #0a0a0a;
+}
+
+/* ─── Ghost Button Neo-Brutal ─── */
+.btn-brutal-ghost {
+  background-color: transparent;
+  color: var(--text-primary);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border: 2px solid var(--text-primary);
+  border-radius: var(--radius-brutal);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.btn-brutal-ghost:hover {
+  background-color: var(--text-primary);
+  color: var(--bg-deep);
+  transform: translate(-2px, -2px);
+  box-shadow: 4px 4px 0px var(--accent-lime);
+}
+
+/* ─── Scrollbar ─── */
 .scrollable {
   overflow-y: auto;
   max-height: 100vh;
