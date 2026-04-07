@@ -280,8 +280,8 @@ function PlanSection({ plan }: { plan: string }) {
               <p className="font-medium">{isPremium ? "Plan Premium" : "Plan Gratuit"}</p>
               <p className="text-sm text-base-content/60">
                 {isPremium
-                  ? "Accès à vie avec CVs illimités"
-                  : "1 CV maximum - Passez en Premium pour plus"}
+                  ? "Accès à vie avec CVs illimités et publication en ligne"
+                  : "1 CV — édition, sauvegarde et PDF inclus. Premium : CV illimités, publication et analytics."}
               </p>
             </div>
           </div>

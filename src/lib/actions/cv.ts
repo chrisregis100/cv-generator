@@ -18,16 +18,37 @@ export interface CvData {
   hobbies: Hobby[];
 }
 
+/** Returns the session, redirecting to /login if unauthenticated. */
 async function getAuthSession() {
   const session = await auth.api.getSession({ headers: await headers() });
   if (!session?.user) redirect("/login");
   return session;
 }
 
-export async function createCv(title: string) {
-  const session = await getAuthSession();
-  const userId = session.user.id;
+/** Returns session and plan without side-effects. Returns null if unauthenticated. */
+async function getOptionalSession() {
+  const session = await auth.api.getSession({ headers: await headers() });
+  if (!session?.user) return null;
   const plan = (session.user as unknown as { plan?: string }).plan ?? "free";
+  return { ...session, plan };
+}
+
+/**
+ * Creates a CV for the authenticated user.
+ * Guest strategy: the CV schema requires a userId (DB NOT NULL), so anonymous
+ * creation is not supported. Callers (NewCvForm) must redirect guests to /login
+ * before invoking this action. Returns { error } instead of hard-redirecting so
+ * client components can surface a friendly message.
+ */
+export async function createCv(title: string) {
+  const session = await getOptionalSession();
+
+  if (!session) {
+    return { error: "Connexion requise pour créer un CV." };
+  }
+
+  const userId = session.user.id;
+  const { plan } = session;
 
   if (plan === "free") {
     const [result] = await db.select({ value: count() }).from(cvs).where(eq(cvs.userId, userId));
@@ -53,8 +74,15 @@ export async function createCv(title: string) {
   return { cv: newCv };
 }
 
+/**
+ * Updates CV content. Requires auth and ownership of the CV (any plan).
+ */
 export async function updateCv(id: string, data: Partial<{ title: string; data: CvData; theme: string; zoom: number }>) {
-  const session = await getAuthSession();
+  const session = await getOptionalSession();
+
+  if (!session) {
+    return { error: "Connexion requise." };
+  }
 
   await db.update(cvs)
     .set({ ...data, updatedAt: new Date() })
@@ -65,7 +93,14 @@ export async function updateCv(id: string, data: Partial<{ title: string; data: 
 }
 
 export async function publishCv(id: string, slug: string) {
-  const session = await getAuthSession();
+  const session = await getOptionalSession();
+
+  if (!session) {
+    return { error: "Connexion requise pour publier un CV." };
+  }
+  if (session.plan !== "premium") {
+    return { error: "La publication nécessite un plan Premium." };
+  }
 
   const slugified = slug.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 
@@ -98,13 +133,17 @@ export async function deleteCv(id: string) {
 }
 
 export async function getUserCvs() {
-  const session = await getAuthSession();
+  const session = await auth.api.getSession({ headers: await headers() });
+  if (!session?.user) return [];
 
   return db.select().from(cvs).where(eq(cvs.userId, session.user.id)).orderBy(cvs.updatedAt);
 }
 
+/** Fetches a CV by id. Requires auth and ownership (any plan). */
 export async function getCvById(id: string) {
-  const session = await getAuthSession();
+  const session = await getOptionalSession();
+
+  if (!session) return null;
 
   const [cv] = await db.select().from(cvs).where(and(eq(cvs.id, id), eq(cvs.userId, session.user.id)));
   return cv ?? null;

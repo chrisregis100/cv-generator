@@ -2,17 +2,19 @@ import Link from "next/link";
 import { Check } from "lucide-react";
 
 const freePlanFeatures = [
-  "1 CV",
+  "Parcourir modèles et exemples sans compte",
+  "1 CV enregistré après inscription",
+  "Édition complète et sauvegarde automatique",
   "Tous les thèmes DaisyUI",
   "Export PDF",
-  "Publication en ligne avec URL publique",
 ];
 
 const premiumPlanFeatures = [
   "CV illimités",
-  "Tout le plan gratuit inclus",
+  "Publication en ligne avec URL publique",
   "Analytics détaillés (vues, pays, appareils)",
   "Support prioritaire",
+  "Accès à vie, sans abonnement",
 ];
 
 export default function PricingSection() {
@@ -39,7 +41,8 @@ export default function PricingSection() {
             Tarifs simples<span style={{ color: "var(--accent-coral)" }}>.</span>
           </h2>
           <p className="text-sm sm:text-base" style={{ color: "var(--text-muted)" }}>
-            Commencez gratuitement. Passez Premium quand vous en avez besoin.
+            Essayez le parcours sur le tableau de bord sans compte. Inscrivez-vous pour
+            sauvegarder ; Premium débloque l&apos;édition continue et la publication.
           </p>
         </div>
 
@@ -100,12 +103,22 @@ export default function PricingSection() {
             </ul>
 
             <Link
-              href="/register"
+              href="/dashboard/cv/new"
               className="btn-brutal-ghost w-full block text-center px-6 py-3.5 text-sm"
-              aria-label="Créer un compte gratuit"
+              aria-label="Créer un CV sans compte jusqu’à la sauvegarde"
             >
-              Commencer gratuitement
+              Essayer sans compte
             </Link>
+            <p className="mt-3 text-center text-xs" style={{ color: "var(--text-muted)" }}>
+              <Link
+                href="/register"
+                className="font-semibold underline underline-offset-2"
+                style={{ color: "var(--text-primary)" }}
+              >
+                Créer un compte
+              </Link>{" "}
+              pour enregistrer votre CV (plan gratuit, 1 CV).
+            </p>
           </div>
 
           {/* Premium Plan */}
@@ -184,7 +197,7 @@ export default function PricingSection() {
               </ul>
 
               <Link
-                href="/dashboard"
+                href={`/login?redirect=${encodeURIComponent("/dashboard")}`}
                 className="w-full block text-center px-6 py-3.5 text-sm font-bold uppercase tracking-wider transition-all duration-300"
                 style={{
                   backgroundColor: "var(--bg-deep)",
@@ -192,10 +205,16 @@ export default function PricingSection() {
                   border: "2px solid var(--bg-deep)",
                   borderRadius: "var(--radius-brutal)",
                 }}
-                aria-label="Passer au plan Premium"
+                aria-label="Se connecter puis passer au plan Premium depuis le tableau de bord"
               >
-                Passer Premium →
+                Se connecter · Passer Premium →
               </Link>
+              <p className="mt-3 text-center text-xs font-medium" style={{ color: "rgba(10,10,10,0.55)" }}>
+                Pas encore de compte ?{" "}
+                <Link href="/register" className="underline underline-offset-2 font-bold">
+                  S&apos;inscrire
+                </Link>
+              </p>
 
               <div className="mt-6 text-center">
                 <p

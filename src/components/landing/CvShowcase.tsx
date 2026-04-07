@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import CvPreview from "@/components/CvPreview";
 import {
   personalDetailsPreset,
@@ -135,6 +136,23 @@ export default function CvShowcase() {
               />
             </div>
           </div>
+        </div>
+
+        <div className="mt-14 flex flex-col sm:flex-row gap-4 justify-center items-stretch sm:items-center">
+          <Link
+            href="/dashboard/cv/new"
+            className="btn-brutal px-8 py-4 text-sm text-center"
+            aria-label="Créer mon CV"
+          >
+            Créer mon CV avec ce style →
+          </Link>
+          <Link
+            href="/dashboard"
+            className="btn-brutal-ghost px-8 py-4 text-sm text-center"
+            aria-label="Voir d’autres exemples sur le tableau de bord"
+          >
+            Voir les modèles sur le dashboard
+          </Link>
         </div>
       </div>
     </section>

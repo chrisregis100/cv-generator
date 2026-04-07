@@ -11,7 +11,7 @@ interface User {
 }
 
 interface DashboardNavProps {
-  user: User;
+  user: User | null;
 }
 
 const SignOutButton = () => {
@@ -25,40 +25,73 @@ const SignOutButton = () => {
   return (
     <button
       onClick={handleSignOut}
-      className="btn btn-ghost btn-sm gap-2"
+      className="inline-flex items-center gap-2 px-3 py-2 text-xs font-semibold uppercase tracking-wider transition-colors duration-200"
+      style={{ color: "var(--text-muted)" }}
       aria-label="Se déconnecter"
     >
       <LogOut className="w-4 h-4" />
-      Se déconnecter
+      <span className="hidden sm:inline">Déconnexion</span>
     </button>
   );
 };
 
 const DashboardNav = ({ user }: DashboardNavProps) => {
   return (
-    <nav className="navbar bg-base-100 shadow-sm px-4 lg:px-8">
-      <div className="flex-1">
-        <Link
-          href="/dashboard"
-          className="text-xl font-bold italic"
-          aria-label="Retour au dashboard"
-        >
-          CV<span className="text-primary">Gen</span>
-        </Link>
-      </div>
-      <div className="flex items-center gap-4">
-        <span className="text-sm text-base-content/60 hidden sm:block">
-          {user.email}
-        </span>
-        <Link
-          href="/dashboard/settings"
-          className="btn btn-ghost btn-sm gap-2"
-          aria-label="Paramètres"
-        >
-          <Settings className="w-4 h-4" />
-          <span className="hidden sm:inline">Paramètres</span>
-        </Link>
-        <SignOutButton />
+    <nav
+      className="sticky top-0 z-50 px-6 py-4 flex items-center justify-between"
+      style={{
+        backgroundColor: "var(--bg-deep)",
+        borderBottom: "2px solid var(--border-thick)",
+      }}
+    >
+      <Link
+        href="/dashboard"
+        className="text-xl font-bold tracking-[0.2em] uppercase"
+        style={{ color: "var(--text-primary)" }}
+        aria-label="CVGen — Tableau de bord"
+      >
+        CV<span style={{ color: "var(--accent-lime)" }}>Gen</span>
+      </Link>
+
+      <div className="flex items-center gap-2 flex-wrap justify-end">
+        {user ? (
+          <>
+            <span
+              className="text-sm hidden sm:block"
+              style={{ color: "var(--text-muted)" }}
+            >
+              {user.email}
+            </span>
+            <Link
+              href="/dashboard/settings"
+              className="inline-flex items-center gap-2 px-3 py-2 text-xs font-semibold uppercase tracking-wider transition-colors duration-200"
+              style={{ color: "var(--text-muted)" }}
+              aria-label="Paramètres"
+            >
+              <Settings className="w-4 h-4" />
+              <span className="hidden sm:inline">Paramètres</span>
+            </Link>
+            <SignOutButton />
+          </>
+        ) : (
+          <>
+            <Link
+              href="/login"
+              className="inline-flex px-3 py-2 text-xs font-semibold uppercase tracking-wider transition-colors duration-200"
+              style={{ color: "var(--text-muted)" }}
+              aria-label="Se connecter"
+            >
+              Connexion
+            </Link>
+            <Link
+              href="/register"
+              className="btn-brutal px-4 py-2 text-xs"
+              aria-label="Créer un compte"
+            >
+              S&apos;inscrire
+            </Link>
+          </>
+        )}
       </div>
     </nav>
   );

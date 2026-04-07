@@ -173,6 +173,167 @@ html, body {
   box-shadow: 4px 4px 0px var(--accent-lime);
 }
 
+/* ─── Brutal Card ─── */
+.brutal-card {
+  background-color: var(--bg-card);
+  border: 2px solid var(--border-thick);
+  border-radius: var(--radius-brutal);
+}
+
+/* ─── Brutal Input ─── */
+.brutal-input {
+  background-color: var(--bg-elevated);
+  border: 2px solid var(--border-thick);
+  border-radius: var(--radius-brutal);
+  color: var(--text-primary);
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  transition: border-color 0.2s;
+  outline: none;
+}
+
+.brutal-input:focus {
+  border-color: var(--accent-lime);
+}
+
+.brutal-input::placeholder {
+  color: var(--text-muted);
+}
+
+.brutal-input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.brutal-input.error {
+  border-color: var(--accent-coral);
+}
+
+/* ─── Brutal Select ─── */
+.brutal-select {
+  background-color: var(--bg-elevated);
+  border: 2px solid var(--border-thick);
+  border-radius: var(--radius-brutal);
+  color: var(--text-primary);
+  padding: 0.375rem 0.5rem;
+  font-size: 0.875rem;
+  cursor: pointer;
+  outline: none;
+}
+
+.brutal-select:focus {
+  border-color: var(--accent-lime);
+}
+
+/* ─── Brutal Range ─── */
+.brutal-range {
+  accent-color: var(--accent-lime);
+  cursor: pointer;
+}
+
+/* ─── Brutal Badge ─── */
+.brutal-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.125rem 0.5rem;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border-radius: var(--radius-brutal);
+}
+
+.brutal-badge-lime {
+  background-color: var(--accent-lime);
+  color: var(--bg-deep);
+}
+
+.brutal-badge-outline {
+  background-color: transparent;
+  border: 1.5px solid var(--border-thick);
+  color: var(--text-muted);
+}
+
+.brutal-badge-success {
+  background-color: rgba(200, 255, 0, 0.15);
+  border: 1.5px solid var(--accent-lime);
+  color: var(--accent-lime);
+}
+
+.brutal-badge-coral {
+  background-color: rgba(255, 107, 74, 0.15);
+  border: 1.5px solid var(--accent-coral);
+  color: var(--accent-coral);
+}
+
+/* ─── Brutal Alert ─── */
+.brutal-alert {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.875rem 1rem;
+  border-radius: var(--radius-brutal);
+  font-size: 0.875rem;
+}
+
+.brutal-alert-info {
+  background-color: rgba(200, 255, 0, 0.08);
+  border: 2px solid rgba(200, 255, 0, 0.3);
+  color: var(--text-primary);
+}
+
+.brutal-alert-success {
+  background-color: rgba(200, 255, 0, 0.1);
+  border: 2px solid var(--accent-lime);
+  color: var(--text-primary);
+}
+
+.brutal-alert-warning {
+  background-color: rgba(255, 107, 74, 0.08);
+  border: 2px solid rgba(255, 107, 74, 0.4);
+  color: var(--text-primary);
+}
+
+.brutal-alert-error {
+  background-color: rgba(255, 107, 74, 0.1);
+  border: 2px solid var(--accent-coral);
+  color: var(--accent-coral);
+}
+
+/* ─── Brutal Ghost Button ─── */
+.btn-brutal-danger {
+  background-color: transparent;
+  color: var(--accent-coral);
+  font-weight: 700;
+  font-size: 0.8125rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border: 2px solid var(--accent-coral);
+  border-radius: var(--radius-brutal);
+  padding: 0.25rem 0.625rem;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.btn-brutal-danger:hover {
+  background-color: var(--accent-coral);
+  color: var(--bg-deep);
+}
+
+.btn-brutal-danger:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ─── Small Brutal Button ─── */
+.btn-brutal-sm {
+  padding: 0.25rem 0.75rem;
+  font-size: 0.8125rem;
+}
+
 /* ─── Scrollbar ─── */
 .scrollable {
   overflow-y: auto;

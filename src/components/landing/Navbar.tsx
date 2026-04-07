@@ -22,7 +22,7 @@ export default async function Navbar() {
         CV<span style={{ color: "var(--accent-lime)" }}>Gen</span>
       </Link>
 
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-2 sm:gap-3 flex-wrap justify-end">
         {session?.user ? (
           <Link
             href="/dashboard"
@@ -34,20 +34,35 @@ export default async function Navbar() {
         ) : (
           <>
             <Link
-              href="/login"
-              className="hidden sm:inline-flex px-4 py-2 text-sm font-semibold uppercase tracking-wider transition-colors duration-200"
+              href="/dashboard"
+              className="hidden md:inline-flex px-3 py-2 text-xs sm:text-sm font-semibold uppercase tracking-wider transition-colors duration-200"
               style={{ color: "var(--text-muted)" }}
-              onMouseEnter={undefined}
+              aria-label="Voir les exemples et modèles"
+            >
+              Modèles
+            </Link>
+            <Link
+              href="/login"
+              className="inline-flex px-3 py-2 text-xs sm:text-sm font-semibold uppercase tracking-wider transition-colors duration-200"
+              style={{ color: "var(--text-muted)" }}
               aria-label="Se connecter"
             >
               Connexion
             </Link>
             <Link
               href="/register"
-              className="btn-brutal px-6 py-2.5 text-sm"
-              aria-label="Créer un compte gratuitement"
+              className="hidden sm:inline-flex px-3 py-2 text-xs sm:text-sm font-semibold uppercase tracking-wider transition-colors duration-200"
+              style={{ color: "var(--text-muted)" }}
+              aria-label="Créer un compte"
             >
-              Commencer
+              S&apos;inscrire
+            </Link>
+            <Link
+              href="/dashboard/cv/new"
+              className="btn-brutal px-4 sm:px-6 py-2.5 text-xs sm:text-sm"
+              aria-label="Créer mon CV"
+            >
+              Créer mon CV
             </Link>
           </>
         )}

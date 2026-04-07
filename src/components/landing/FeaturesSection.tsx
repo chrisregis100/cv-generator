@@ -26,7 +26,7 @@ const features: Feature[] = [
     icon: Globe,
     title: "Publication en ligne",
     description:
-      "Partagez votre CV avec une URL publique personnalisée, optimisée SEO.",
+      "URL publique personnalisée (plan Premium), optimisée pour le partage.",
   },
   {
     icon: Palette,

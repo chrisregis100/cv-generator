@@ -72,35 +72,54 @@ export default function HeroSection() {
               className="mt-8 text-base sm:text-lg max-w-lg leading-relaxed animate-slide-up-delay-2"
               style={{ color: "var(--text-muted)" }}
             >
-              Concevez, personnalisez et partagez votre CV grâce à des thèmes
-              modernes. Export PDF haute qualité ou publication en ligne avec URL
-              unique.
+              Parcourez des modèles sans compte, démarrez votre CV en un clic, puis
+              connectez-vous pour le sauvegarder. Passez Premium pour rouvrir,
+              modifier et publier en ligne avec une URL dédiée.
             </p>
 
-            {/* CTA Buttons */}
+            {/* CTA Buttons — alignés sur le parcours invité → dashboard → création */}
             <div className="flex flex-col sm:flex-row gap-4 mt-10 animate-slide-up-delay-3">
               <Link
-                href="/register"
+                href="/dashboard/cv/new"
                 className="btn-brutal px-8 py-4 text-base text-center"
-                aria-label="Créer un compte gratuitement"
+                aria-label="Créer mon CV sans compte jusqu’à la sauvegarde"
               >
-                Commencer gratuitement →
+                Créer mon CV →
               </Link>
               <Link
-                href="/cv/john-doe"
+                href="/dashboard"
                 className="btn-brutal-ghost px-8 py-4 text-base text-center"
-                aria-label="Voir un exemple de CV"
+                aria-label="Voir les exemples et modèles sur le tableau de bord"
               >
-                Voir un exemple
+                Voir les modèles
               </Link>
             </div>
+
+            <p className="mt-4 text-sm animate-slide-up-delay-3" style={{ color: "var(--text-muted)" }}>
+              Déjà un compte ?{" "}
+              <Link
+                href="/login"
+                className="font-semibold underline underline-offset-4 hover:opacity-90"
+                style={{ color: "var(--accent-lime)" }}
+              >
+                Connexion
+              </Link>
+              {" · "}
+              <Link
+                href="/register"
+                className="font-semibold underline underline-offset-4 hover:opacity-90"
+                style={{ color: "var(--accent-lime)" }}
+              >
+                Créer un compte
+              </Link>
+            </p>
 
             {/* No credit card notice */}
             <p
               className="mt-6 text-xs uppercase tracking-wider font-medium"
               style={{ color: "var(--text-muted)" }}
             >
-              ✓ Gratuit — Aucune carte bancaire requise
+              ✓ Sans compte pour commencer · Premium pour publier et tout éditer
             </p>
           </div>
 
