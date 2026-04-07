@@ -31,20 +31,22 @@ import { getCvById, updateCv, type CvData } from "@/lib/actions/cv";
 import html2canvas from "html2canvas-pro";
 import jsPDF from "jspdf";
 import confetti from "canvas-confetti";
+import {
+  CV_TEMPLATE_IDS,
+  CV_TEMPLATE_LABELS,
+  DEFAULT_CV_THEMES,
+  mergeCvTheme,
+  normalizeTemplateId,
+  type CvTemplateId,
+  type CvThemeColors,
+} from "@/lib/cv-template";
+import { fileToDataUrl } from "@/lib/cv-photo";
 
 const PUBLISH_MODAL_ID = "publish-modal-editor";
 
 interface CvEditorClientProps {
   isPremium: boolean;
 }
-
-const themes = [
-  "light", "dark", "cupcake", "bumblebee", "emerald", "corporate",
-  "synthwave", "retro", "cyberpunk", "valentine", "halloween", "garden",
-  "forest", "aqua", "lofi", "pastel", "fantasy", "wireframe", "black",
-  "luxury", "dracula", "cmyk", "autumn", "business", "acid", "lemonade",
-  "night", "coffee", "winter", "dim", "nord", "sunset",
-];
 
 type SaveStatus = "saved" | "saving" | "idle" | "error";
 
@@ -62,7 +64,8 @@ export default function CvEditorPage({ isPremium }: CvEditorClientProps) {
 
   const [personnalDetails, setPersonnalDetails] = useState<PersonalDetails>(personalDetailsPreset);
   const [file, setFile] = useState<File | null>(null);
-  const [theme, setTheme] = useState<string>("cupcake");
+  const [templateId, setTemplateId] = useState<CvTemplateId>("commercial_sidebar");
+  const [cvTheme, setCvTheme] = useState<CvThemeColors>(DEFAULT_CV_THEMES.commercial_sidebar);
   const [zoom, setZoom] = useState<number>(163);
   const [experiences, setExperiences] = useState<Experience[]>(experiencesPreset);
   const [educations, setEducations] = useState<Education[]>(educationsPreset);
@@ -105,7 +108,9 @@ export default function CvEditorPage({ isPremium }: CvEditorClientProps) {
         if (data.skills) setSkills(data.skills);
         if (data.languages) setLanguages(data.languages);
         if (data.hobbies) setHobby(data.hobbies);
-        setTheme(cv.theme ?? "cupcake");
+        const tid = normalizeTemplateId(cv.templateId);
+        setTemplateId(tid);
+        setCvTheme(mergeCvTheme(tid, cv.cvTheme));
         setZoom(cv.zoom ?? 163);
       } catch (err) {
         console.error("Erreur lors du chargement du CV:", err);
@@ -118,27 +123,30 @@ export default function CvEditorPage({ isPremium }: CvEditorClientProps) {
     loadCv();
   }, [id, router]);
 
-  useEffect(() => {
-    fetch("/profil.jpg")
-      .then((res) => res.blob())
-      .then((blob) => {
-        setFile(new File([blob], "profile.jpg", { type: blob.type }));
-      })
-      .catch(() => {});
-  }, []);
-
   const performSave = useCallback(async () => {
+    let personalToSave = personnalDetails;
+    if (file) {
+      try {
+        const dataUrl = await fileToDataUrl(file);
+        personalToSave = { ...personnalDetails, photoUrl: dataUrl };
+      } catch (e) {
+        console.error("Photo non enregistrée:", e);
+      }
+    }
+
     const result = await updateCv(id, {
       data: {
-        personalDetails: personnalDetails,
+        personalDetails: personalToSave,
         experiences,
         educations,
         skills,
         languages,
         hobbies: hobby,
       },
-      theme,
+      theme: "cupcake",
       zoom,
+      templateId,
+      cvTheme: { accent: cvTheme.accent, sidebar: cvTheme.sidebar },
     });
 
     if ("error" in result && result.error) {
@@ -150,7 +158,19 @@ export default function CvEditorPage({ isPremium }: CvEditorClientProps) {
 
     setSaveStatus("saved");
     setSaveErrorMessage(null);
-  }, [id, personnalDetails, experiences, educations, skills, languages, hobby, theme, zoom]);
+  }, [
+    id,
+    personnalDetails,
+    file,
+    experiences,
+    educations,
+    skills,
+    languages,
+    hobby,
+    zoom,
+    templateId,
+    cvTheme,
+  ]);
 
   const triggerAutoSave = useCallback(() => {
     if (!isInitialized) return;
@@ -186,28 +206,32 @@ export default function CvEditorPage({ isPremium }: CvEditorClientProps) {
 
   const handleDownloadPdf = async () => {
     const element = cvPreviewRef.current;
+    if (!element) return;
+
     setIsDownloading(true);
+    try {
+      const canvas = await html2canvas(element, { scale: 3, useCORS: true });
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF({ orientation: "portrait", unit: "mm", format: "A4" });
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+      pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+      pdf.save(`${cvMeta?.title ?? "cv"}.pdf`);
 
-    if (element) {
-      try {
-        const canvas = await html2canvas(element, { scale: 3, useCORS: true });
-        const imgData = canvas.toDataURL("image/pdf");
-        const pdf = new jsPDF({ orientation: "portrait", unit: "mm", format: "A4" });
-        const pdfWidth = pdf.internal.pageSize.getWidth();
-        const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-        pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-        pdf.save(`${cvMeta?.title ?? "cv"}.pdf`);
+      const modal = document.getElementById("cv_preview_modal") as HTMLDialogElement | null;
+      modal?.close();
 
-        const modal = document.getElementById("cv_preview_modal") as HTMLDialogElement | null;
-        modal?.close();
-
-        confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 }, zIndex: 9999 });
-      } catch (error) {
-        console.error("Erreur lors de la génération du PDF:", error);
-      } finally {
-        setIsDownloading(false);
-      }
+      confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 }, zIndex: 9999 });
+    } catch (error) {
+      console.error("Erreur lors de la génération du PDF:", error);
+    } finally {
+      setIsDownloading(false);
     }
+  };
+
+  const handleTemplateChange = (next: CvTemplateId) => {
+    setTemplateId(next);
+    setCvTheme(DEFAULT_CV_THEMES[next]);
   };
 
   const handleOpenPublishModal = () => {
@@ -455,33 +479,65 @@ export default function CvEditorPage({ isPremium }: CvEditorClientProps) {
               </p>
             </div>
 
-            {/* Theme selector */}
-            <select
-              value={theme}
-              onChange={(e) => setTheme(e.target.value)}
-              className="brutal-select fixed z-9999 top-12 right-5"
-              aria-label="Sélecteur de thème"
+            {/* Gabarit + couleurs CV */}
+            <div
+              className="fixed z-[9999] top-12 right-5 flex flex-col gap-2 rounded-md p-2 text-xs"
+              style={{
+                backgroundColor: "var(--bg-elevated)",
+                border: "2px solid var(--border-thick)",
+              }}
             >
-              {themes.map((themeName) => (
-                <option key={themeName} value={themeName}>
-                  {themeName}
-                </option>
-              ))}
-            </select>
+              <label className="flex flex-col gap-1 font-mono" style={{ color: "var(--text-muted)" }}>
+                Gabarit
+                <select
+                  value={templateId}
+                  onChange={(e) => handleTemplateChange(e.target.value as CvTemplateId)}
+                  className="brutal-select max-w-[200px] text-[11px]"
+                  aria-label="Gabarit du CV"
+                >
+                  {CV_TEMPLATE_IDS.map((tid) => (
+                    <option key={tid} value={tid}>
+                      {CV_TEMPLATE_LABELS[tid]}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label className="flex items-center gap-2 font-mono" style={{ color: "var(--text-muted)" }}>
+                Accent
+                <input
+                  type="color"
+                  value={cvTheme.accent}
+                  onChange={(e) => setCvTheme((t) => ({ ...t, accent: e.target.value }))}
+                  className="h-8 w-12 cursor-pointer rounded border-2 bg-transparent p-0"
+                  aria-label="Couleur d’accent du CV"
+                />
+              </label>
+              <label className="flex items-center gap-2 font-mono" style={{ color: "var(--text-muted)" }}>
+                Sidebar
+                <input
+                  type="color"
+                  value={cvTheme.sidebar}
+                  onChange={(e) => setCvTheme((t) => ({ ...t, sidebar: e.target.value }))}
+                  className="h-8 w-12 cursor-pointer rounded border-2 bg-transparent p-0"
+                  aria-label="Couleur de la colonne latérale du CV"
+                />
+              </label>
+            </div>
 
             <div
               className="flex justify-center items-center"
               style={{ transform: `scale(${zoom / 200})` }}
             >
               <CvPreview
-                personnalDetails={personnalDetails}
+                personalDetails={personnalDetails}
                 file={file}
-                theme={theme}
                 experiences={experiences}
                 educations={educations}
-                lanquages={languages}
+                languages={languages}
                 hobbies={hobby}
                 skills={skills}
+                templateId={templateId}
+                themeColors={cvTheme}
               />
             </div>
           </div>
@@ -520,16 +576,17 @@ export default function CvEditorPage({ isPremium }: CvEditorClientProps) {
               <div className="w-full max-w-full overflow-auto">
                 <div className="w-full max-w-full flex justify-center items-center">
                   <CvPreview
-                    personnalDetails={personnalDetails}
+                    ref={cvPreviewRef}
+                    personalDetails={personnalDetails}
                     file={file}
-                    theme={theme}
                     experiences={experiences}
                     educations={educations}
-                    lanquages={languages}
+                    languages={languages}
                     hobbies={hobby}
                     skills={skills}
+                    templateId={templateId}
+                    themeColors={cvTheme}
                     download={true}
-                    ref={cvPreviewRef}
                   />
                 </div>
               </div>

@@ -3,9 +3,11 @@ import { cvs } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
+import Link from "next/link";
 import CvPreview from "@/components/CvPreview";
 import CvViewTracker from "./cv-view-tracker";
 import type { CvData } from "@/lib/actions/cv";
+import { mergeCvTheme, normalizeTemplateId } from "@/lib/cv-template";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -20,15 +22,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const data = cv.data as CvData;
   const name = data.personalDetails?.fullName || "CV";
   const job = data.personalDetails?.postSeeking || "";
+  const blurb =
+    data.personalDetails?.summary?.trim() ||
+    data.personalDetails?.description?.trim() ||
+    `CV professionnel de ${name}`;
 
   return {
     title: `${name}${job ? ` — ${job}` : ""} | CV en ligne`,
-    description:
-      data.personalDetails?.description || `CV professionnel de ${name}`,
+    description: blurb,
     openGraph: {
       title: `${name}${job ? ` — ${job}` : ""}`,
-      description:
-        data.personalDetails?.description || `CV professionnel de ${name}`,
+      description: blurb,
       type: "profile",
     },
   };
@@ -58,23 +62,24 @@ export default async function PublicCvPage({ params }: Props) {
 
       <div className="shadow-2xl rounded-lg overflow-hidden overflow-x-auto">
         <CvPreview
-          personnalDetails={data.personalDetails}
+          personalDetails={data.personalDetails}
           file={null}
           experiences={data.experiences}
           educations={data.educations}
           skills={data.skills}
-          lanquages={data.languages}
+          languages={data.languages}
           hobbies={data.hobbies}
-          theme={cv.theme}
+          templateId={normalizeTemplateId(cv.templateId)}
+          themeColors={mergeCvTheme(normalizeTemplateId(cv.templateId), cv.cvTheme)}
         />
       </div>
 
       <footer className="mt-8 text-center text-base-content/40 text-sm">
         <p>
           Créé avec{" "}
-          <a href="/" className="link link-primary">
+          <Link href="/" className="link link-primary">
             CVGen
-          </a>
+          </Link>
         </p>
       </footer>
 

@@ -12,6 +12,7 @@ const EducationForm: React.FC<Props> = ({ educations, setEducations }) => {
     id: "",
     degree: "",
     school: "",
+    location: "",
     startDate: "",
     endDate: "",
     description: "",
@@ -30,6 +31,7 @@ const EducationForm: React.FC<Props> = ({ educations, setEducations }) => {
       id: "",
       degree: "",
       school: "",
+      location: "",
       startDate: "",
       endDate: "",
       description: "",
@@ -55,6 +57,13 @@ const EducationForm: React.FC<Props> = ({ educations, setEducations }) => {
               onChange={(e) => handlechange(e, "school")}
             />
           </div>
+          <input
+            type="text"
+            placeholder=" Lieu (ville, pays)"
+            className="input input-bordered w-full"
+            value={newEducation.location ?? ""}
+            onChange={(e) => handlechange(e, "location")}
+          />
           <div className="flex justify-between">
             <input
               type="text"

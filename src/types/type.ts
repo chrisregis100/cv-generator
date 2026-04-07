@@ -5,14 +5,22 @@ export type PersonalDetails = {
   phone: string;
   address: string;
   photoUrl?: string;
+  /** Texte court pour la zone « Profil » (gabarit commercial). */
+  profileShort?: string;
+  /** Paragraphe de présentation principal (gabarit développeur / colonne droite). */
+  summary?: string;
+  /** @deprecated Préférer profileShort + summary ; conservé pour rétrocompatibilité. */
   description?: string;
   postSeeking?: string;
+  website?: string;
+  driverLicense?: string;
 };
 
 export type Experience = {
   id?: string;
   jobTitle: string;
   companyName: string;
+  location?: string;
   startDate: string;
   endDate: string;
   description: string;
@@ -22,6 +30,7 @@ export type Education = {
   id?: string;
   school: string;
   degree: string;
+  location?: string;
   description: string;
   startDate: string;
   endDate: string;
@@ -41,4 +50,8 @@ export type Language = {
 export type Hobby = {
   id?: string;
   name: string;
+  /** Ex. SPORTS, VOYAGES (gabarit commercial structuré). */
+  category?: string;
+  /** Ex. Football, vélo, natation */
+  detail?: string;
 };

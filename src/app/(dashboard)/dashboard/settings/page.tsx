@@ -25,10 +25,6 @@ interface UserData {
   plan?: string;
 }
 
-interface SettingsPageProps {
-  user: UserData;
-}
-
 // Profile Section Component
 function ProfileSection({ user }: { user: UserData }) {
   const [isPending, startTransition] = useTransition();

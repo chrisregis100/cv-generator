@@ -77,7 +77,17 @@ export async function createCv(title: string) {
 /**
  * Updates CV content. Requires auth and ownership of the CV (any plan).
  */
-export async function updateCv(id: string, data: Partial<{ title: string; data: CvData; theme: string; zoom: number }>) {
+export async function updateCv(
+  id: string,
+  data: Partial<{
+    title: string;
+    data: CvData;
+    theme: string;
+    zoom: number;
+    templateId: string;
+    cvTheme: { accent?: string; sidebar?: string } | null;
+  }>
+) {
   const session = await getOptionalSession();
 
   if (!session) {

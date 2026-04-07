@@ -10,6 +10,7 @@ const ExperiencesForm: React.FC<Props> = ({ experiences, setExperiences }) => {
   const [newExperience, setNewExperience] = useState<Experience>({
     jobTitle: "",
     companyName: "",
+    location: "",
     startDate: "",
     endDate: "",
     description: "",
@@ -27,6 +28,7 @@ const ExperiencesForm: React.FC<Props> = ({ experiences, setExperiences }) => {
     setNewExperience({
       jobTitle: "",
       companyName: "",
+      location: "",
       startDate: "",
       endDate: "",
       description: "",
@@ -52,6 +54,13 @@ const ExperiencesForm: React.FC<Props> = ({ experiences, setExperiences }) => {
             onChange={(e) => handlechange(e, "companyName")}
           />
         </div>
+        <input
+          type="text"
+          placeholder=" Lieu (ville, pays)"
+          className="input input-bordered w-full"
+          value={newExperience.location ?? ""}
+          onChange={(e) => handlechange(e, "location")}
+        />
         <div className="flex justify-between">
           <input
             type="text"

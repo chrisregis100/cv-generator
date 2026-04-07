@@ -55,8 +55,11 @@ export const cvs = pgTable("cvs", {
   slug: varchar("slug", { length: 255 }).unique(),
   data: jsonb("data").notNull(),
   isPublished: boolean("is_published").default(false).notNull(),
+  /** @deprecated Legacy DaisyUI theme for old previews; new templates use cvTheme. */
   theme: varchar("theme", { length: 100 }).default("cupcake").notNull(),
   zoom: integer("zoom").default(163).notNull(),
+  templateId: varchar("template_id", { length: 64 }).default("commercial_sidebar").notNull(),
+  cvTheme: jsonb("cv_theme").$type<{ accent?: string; sidebar?: string } | null>(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });

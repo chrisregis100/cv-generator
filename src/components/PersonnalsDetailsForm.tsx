@@ -68,10 +68,36 @@ const PersonnalsDetailsForm: React.FC<Props> = ({
         value={personnalDetails.postSeeking}
         onChange={(e) => handlechange(e, "postSeeking")}
       />
-      <textarea
-        placeholder=" Décrivez-vous"
+      <input
+        type="url"
+        placeholder="Site web (optionnel)"
         className="input input-bordered w-full"
-        value={personnalDetails.description}
+        value={personnalDetails.website ?? ""}
+        onChange={(e) => handlechange(e, "website")}
+      />
+      <input
+        type="text"
+        placeholder="Permis / mobilité (optionnel)"
+        className="input input-bordered w-full"
+        value={personnalDetails.driverLicense ?? ""}
+        onChange={(e) => handlechange(e, "driverLicense")}
+      />
+      <textarea
+        placeholder="Profil court (sidebar — gabarit commercial)"
+        className="textarea textarea-bordered w-full min-h-[72px]"
+        value={personnalDetails.profileShort ?? ""}
+        onChange={(e) => handlechange(e, "profileShort")}
+      />
+      <textarea
+        placeholder="Résumé / présentation (colonne principale — gabarit pro)"
+        className="textarea textarea-bordered w-full min-h-[96px]"
+        value={personnalDetails.summary ?? ""}
+        onChange={(e) => handlechange(e, "summary")}
+      />
+      <textarea
+        placeholder="Description (texte libre / compatibilité)"
+        className="textarea textarea-bordered w-full min-h-[72px]"
+        value={personnalDetails.description ?? ""}
         onChange={(e) => handlechange(e, "description")}
       />
     </div>

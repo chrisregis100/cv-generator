@@ -12,7 +12,7 @@ async function getAuthSession() {
 }
 
 export async function updateProfile(formData: FormData) {
-  const session = await getAuthSession();
+  await getAuthSession();
   const name = formData.get("name") as string;
 
   if (!name || name.trim().length === 0) {
@@ -37,7 +37,7 @@ export async function updateProfile(formData: FormData) {
 }
 
 export async function deleteAccount() {
-  const session = await getAuthSession();
+  await getAuthSession();
 
   try {
     await auth.api.deleteUser({

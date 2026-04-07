@@ -1,9 +1,9 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { createFeexPayCheckout } from "@/lib/feexpay";
 import { headers } from "next/headers";
 
-export async function POST(request: NextRequest) {
+export async function POST() {
   const session = await auth.api.getSession({ headers: await headers() });
 
   if (!session?.user) {
